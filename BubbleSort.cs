@@ -1,10 +1,13 @@
+
 ﻿using System;
 
 class Program
+
 {
     //метод для обмена элементов массива
     static void Swap(ref int x, ref int y)
     {
+
         var t = x;
         x = y;
         y = t;
