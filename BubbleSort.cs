@@ -1,3 +1,4 @@
+
 ﻿using System;
 
 class Program
@@ -62,5 +63,6 @@ class Program
         Console.WriteLine("Упорядоченный массив: {0}", string.Join(", ", QuickSort(a)));
 
         Console.ReadLine();
+
     }
 }
