@@ -1,76 +1,66 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BubbleSort
+class Program
 {
-    class Program
+    //метод для обмена элементов массива
+    static void Swap(ref int x, ref int y)
     {
-        //Метод, сортирующий массив целых чисел (по возрастанию)
-        public static void Bubble_Sort(int[] anArray)
+        var t = x;
+        x = y;
+        y = t;
+    }
+
+    //метод возвращающий индекс опорного элемента
+    static int Partition(int[] array, int minIndex, int maxIndex)
+    {
+        var pivot = minIndex - 1;
+        for (var i = minIndex; i < maxIndex; i++)
         {
-            //Выводим элементы массива (массив в исходном виде), исключительно диагностический вывод информации
-            PrintArray(anArray);
-
-            //Основной цикл (количество повторений равно количеству элементов массива)
-            for (int i = 0; i < anArray.Length; i++)
+            if (array[i] < array[maxIndex])
             {
-                //Вложенный цикл (количество повторений, равно количеству элементов массива минус 1 и минус количество выполненных повторений основного цикла)
-                for (int j = 0; j < anArray.Length - 1 - i; j++)
-                {
-                    //Если элемент массива с индексом j больше следующего за ним элемента
-                    if (anArray[j] > anArray[j + 1])
-                    {
-                        //Меняем местами элемент массива с индексом j и следующий за ним
-                        Swap(ref anArray[j], ref anArray[j + 1]);
-                    }
-                }
-
-                //Выводим элементы массива после очередной итерации, исключительно диагностический вывод информации
-                PrintArray(anArray);
+                pivot++;
+                Swap(ref array[pivot], ref array[i]);
             }
         }
 
-        //Вспомогательный метод, "меняет местами" два элемента
-        public static void Swap(ref int aFirstArg, ref int aSecondArg)
+        pivot++;
+        Swap(ref array[pivot], ref array[maxIndex]);
+        return pivot;
+    }
+
+    //быстрая сортировка
+    static int[] QuickSort(int[] array, int minIndex, int maxIndex)
+    {
+        if (minIndex >= maxIndex)
         {
-            //Временная (вспомогательная) переменная, хранит значение первого элемента
-            int tmpParam = aFirstArg;
-
-            //Первый аргумент получил значение второго
-            aFirstArg = aSecondArg;
-
-            //Второй аргумент, получил сохраненное ранее значение первого
-            aSecondArg = tmpParam;
+            return array;
         }
 
-        //Вспомогательный метод, выводящий на консоль элементы массива
-        public static void PrintArray(int[] anArray)
-        {
-            //Перебор всех элементов массива
-            for (int i = 0; i < anArray.Length; i++)
-            {
-                //Вывод значения текущего элемента и пробел после него
-                Console.Write(anArray[i] + " ");
-            }
+        var pivotIndex = Partition(array, minIndex, maxIndex);
+        QuickSort(array, minIndex, pivotIndex - 1);
+        QuickSort(array, pivotIndex + 1, maxIndex);
 
-            //Перевод строки
-            Console.WriteLine("\n");
+        return array;
+    }
+
+    static int[] QuickSort(int[] array)
+    {
+        return QuickSort(array, 0, array.Length - 1);
+    }
+
+    static void Main(string[] args)
+    {
+        Console.Write("N = ");
+        var len = Convert.ToInt32(Console.ReadLine());
+        var a = new int[len];
+        for (var i = 0; i < a.Length; ++i)
+        {
+            Console.Write("a[{0}] = ", i);
+            a[i] = Convert.ToInt32(Console.ReadLine());
         }
 
-        //Главный метод программы 
-        static void Main(string[] args)
-        {
-            //Некий массив целых чисел, который нужно отсортировать 
-            int[] someArray = new int[] { 1, 2, 4, 3, 8, 5, 7, 6, 9, 0 };
+        Console.WriteLine("Упорядоченный массив: {0}", string.Join(", ", QuickSort(a)));
 
-            //Сортируем его 
-            Bubble_Sort(someArray);
-
-            //Чтобы окно быстро не закрылось 
-            Console.ReadKey();
-        }
+        Console.ReadLine();
     }
 }
