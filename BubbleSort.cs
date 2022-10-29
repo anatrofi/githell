@@ -1,75 +1,39 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BubbleSort
+
+
+namespace ConsoleApp22
 {
     class Program
     {
-        //Метод, сортирующий массив целых чисел (по возрастанию)
-        public static void Bubble_Sort(int[] anArray)
-        {
-            //Выводим элементы массива (массив в исходном виде), исключительно диагностический вывод информации
-            PrintArray(anArray);
-
-            //Основной цикл (количество повторений равно количеству элементов массива)
-            for (int i = 0; i < anArray.Length; i++)
-            {
-                //Вложенный цикл (количество повторений, равно количеству элементов массива минус 1 и минус количество выполненных повторений основного цикла)
-                for (int j = 0; j < anArray.Length - 1 - i; j++)
-                {
-                    //Если элемент массива с индексом j больше следующего за ним элемента
-                    if (anArray[j] > anArray[j + 1])
-                    {
-                        //Меняем местами элемент массива с индексом j и следующий за ним
-                        Swap(ref anArray[j], ref anArray[j + 1]);
-                    }
-                }
-
-                //Выводим элементы массива после очередной итерации, исключительно диагностический вывод информации
-                PrintArray(anArray);
-            }
-        }
-
-        //Вспомогательный метод, "меняет местами" два элемента
-        public static void Swap(ref int aFirstArg, ref int aSecondArg)
-        {
-            //Временная (вспомогательная) переменная, хранит значение первого элемента
-            int tmpParam = aFirstArg;
-
-            //Первый аргумент получил значение второго
-            aFirstArg = aSecondArg;
-
-            //Второй аргумент, получил сохраненное ранее значение первого
-            aSecondArg = tmpParam;
-        }
-
-        //Вспомогательный метод, выводящий на консоль элементы массива
-        public static void PrintArray(int[] anArray)
-        {
-            //Перебор всех элементов массива
-            for (int i = 0; i < anArray.Length; i++)
-            {
-                //Вывод значения текущего элемента и пробел после него
-                Console.Write(anArray[i] + " ");
-            }
-
-            //Перевод строки
-            Console.WriteLine("\n");
-        }
-
-        //Главный метод программы 
+        // Сортировка вставками
         static void Main(string[] args)
         {
-            //Некий массив целых чисел, который нужно отсортировать 
-            int[] someArray = new int[] { 1, 2, 4, 3, 8, 5, 7, 6, 9, 0 };
+            int[] a = { 7, 0, -4, 3, 1, -2, 5 };
 
-            //Сортируем его 
-            Bubble_Sort(someArray);
+            for (int i = 1; i < a.Length; i++)
+            {
+                int k = a[i];
+                int j = i - 1;
 
-            //Чтобы окно быстро не закрылось 
+                while (j >= 0 && a[j] > k)
+                {
+                    a[j + 1] = a[j];
+                    a[j] = k;
+                    j--;
+                }
+            }
+
+            // Распечатываем массив.
+            Console.WriteLine("Сортировка вставками");
+            for (int i = 0; i < a.Length; i++)
+            {
+                Console.WriteLine(a[i]);
+            }
             Console.ReadKey();
         }
     }
